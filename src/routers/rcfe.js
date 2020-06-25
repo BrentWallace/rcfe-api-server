@@ -18,16 +18,13 @@ router.get('/communities', async (req, res) => {
     if (req.query.facility_number) {
       searchParameters['Facility Number'] = req.query.facility_number;
     }
-    const fetchData = async () => {
-      const rcfeList = await Rcfe.find(searchParameters);
-      if (!rcfeList.length) {
-        return res.status(404).send('Could not locate communities matching your search');
-      }
-      return res.json(rcfeList);
-    };
-    fetchData();
+    const rcfeList = await Rcfe.find(searchParameters);
+    if (!rcfeList.length) {
+      return res.status(404).send('Could not locate communities matching your search');
+    }
+    return res.json(rcfeList);
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send('Server Error');
   }
 });
 
