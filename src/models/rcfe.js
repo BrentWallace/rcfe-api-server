@@ -76,6 +76,14 @@ const rcfeSchema = new mongoose.Schema({
   all_visit_dates: {
     type: String,
   },
+  latitude: {
+    type: String,
+    required: true,
+  },
+  longitude: {
+    type: String,
+    required: true,
+  },
 });
 
 const Rcfe = mongoose.model('Rcfe', rcfeSchema, 'rcfe');

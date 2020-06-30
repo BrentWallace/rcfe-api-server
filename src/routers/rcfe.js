@@ -15,8 +15,8 @@ router.get('/communities', async (req, res) => {
     if (req.query.address) {
       searchParameters['Facility Address'] = new RegExp(`${req.query.address}`, 'i');
     }
-    if (req.query.facility_number) {
-      searchParameters['Facility Number'] = req.query.facility_number;
+    if (req.query.facilityNumber) {
+      searchParameters['Facility Number'] = req.query.facilityNumber;
     }
     const rcfeList = await Rcfe.find(searchParameters);
     if (!rcfeList.length) {
