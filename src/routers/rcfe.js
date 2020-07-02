@@ -1,5 +1,10 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const csv = require('fast-csv');
+const mongoose = require('mongoose')
 const Rcfe = require('../models/rcfe');
+const { resolve } = require('path');
 
 const router = new express.Router();
 
@@ -26,6 +31,24 @@ router.get('/communities', async (req, res) => {
   } catch (e) {
     res.status(500).send('Server Error');
   }
+});
+
+router.post('/communities', async (req, res) => {
+  const communities = [];
+
+  fs.createReadStream(path.resolve('assets', 'rcfe-export.csv'))
+    .pipe(csv.parse({ headers: true }))
+    .on('error', error=>console.log(error))
+    .on('data', row=>communities.push(row))
+    .on('end', async () => {
+      try {
+        await Rcfe.collection.drop();
+        await Rcfe.insertMany(communities);
+        res.send('communities updated');
+      } catch (e) {
+        console.log(e);
+      }
+    });
 });
 
 module.exports = router;
