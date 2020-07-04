@@ -12,16 +12,16 @@ router.get('/communities', async (req, res) => {
   try {
     const searchParameters = {};
     if (req.query.city) {
-      searchParameters['Facility City'] = new RegExp(`${req.query.city}`, 'i');
+      searchParameters.facility_city = new RegExp(`${req.query.city}`, 'i');
     }
     if (req.query.zip) {
-      searchParameters['Facility Zip'] = req.query.zip;
+      searchParameters.facility_zip = req.query.zip;
     }
     if (req.query.address) {
-      searchParameters['Facility Address'] = new RegExp(`${req.query.address}`, 'i');
+      searchParameters.facility_address = new RegExp(`${req.query.address}`, 'i');
     }
     if (req.query.facilityNumber) {
-      searchParameters['Facility Number'] = req.query.facilityNumber;
+      searchParameters.facility_number = req.query.facilityNumber;
     }
     const rcfeList = await Rcfe.find(searchParameters);
     if (!rcfeList.length) {
